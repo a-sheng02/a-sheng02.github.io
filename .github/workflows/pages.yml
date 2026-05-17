@@ -27,11 +27,20 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build
         run: npx hexo generate
+
+      - name: Debug (check public)
+        run: |
+          ls -al public
+          wc -c public/index.html || true
+          head -n 5 public/index.html || true
 
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v4
@@ -48,4 +57,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
